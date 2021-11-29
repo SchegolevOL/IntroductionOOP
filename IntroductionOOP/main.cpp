@@ -96,8 +96,8 @@ public:
 	Point operator++(int)//Posfix increment
 	{
 		Point old = *this;
-		this->x++;
-		this->y++;
+		x++;
+		y++;
 		
 		return old;//Спарое (НЕ измененное) значение
 	}
