@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include<Windows.h>
 #include<math.h>
 
@@ -13,9 +13,9 @@ using std::endl;
 
 class Fraction
 {
-	int x;
-	int y;
-	int z;
+	int x;// числитель
+	int y;// знаменатель
+	int z;// целое
 public:
 	int get_x()const
 	{
@@ -53,7 +53,7 @@ public:
 		
 	}
 	
-	Fraction(const Fraction& other)// ����������� �����������
+	Fraction(const Fraction& other)// конструктор копирования
 	{
 		
 		this->z = other.z;

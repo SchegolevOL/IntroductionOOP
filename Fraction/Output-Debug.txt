@@ -1,0 +1,12 @@
+﻿'ClassFraction.exe' (Win32): Loaded 'C:\Users\olegs\source\repos\IntroductionOOP\x64\Debug\ClassFraction.exe'. Symbols loaded.
+'ClassFraction.exe' (Win32): Loaded 'C:\Windows\System32\ntdll.dll'. 
+'ClassFraction.exe' (Win32): Loaded 'C:\Windows\System32\kernel32.dll'. 
+'ClassFraction.exe' (Win32): Loaded 'C:\Windows\System32\KernelBase.dll'. 
+'ClassFraction.exe' (Win32): Loaded 'C:\Windows\System32\apphelp.dll'. 
+'ClassFraction.exe' (Win32): Loaded 'C:\Windows\System32\vcruntime140d.dll'. 
+'ClassFraction.exe' (Win32): Loaded 'C:\Windows\System32\ucrtbased.dll'. 
+The thread 0x8f50 has exited with code 0 (0x0).
+'ClassFraction.exe' (Win32): Loaded 'C:\Windows\System32\kernel.appcore.dll'. 
+'ClassFraction.exe' (Win32): Loaded 'C:\Windows\System32\msvcrt.dll'. 
+'ClassFraction.exe' (Win32): Loaded 'C:\Windows\System32\rpcrt4.dll'. 
+The program '[860] ClassFraction.exe' has exited with code 0 (0x0).
