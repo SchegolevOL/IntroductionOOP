@@ -97,17 +97,19 @@ public:
 		else if (integer == 0)cout << 0;
 		cout << endl;
 	}
-	void to_impropert()//Перевод дроби в неправельную дробь
+	Fraction& to_impropert()//Перевод дроби в неправельную дробь
 	{
 		numerator += integer * denomenator;
 		integer = 0;
+		return *this;
 	}
-	void to_proper()//Перевод дроби в правельную дробь
+	Fraction& to_proper()//Перевод дроби в правельную дробь
 	{
 		integer += numerator / denomenator;
 		numerator %= denomenator;
+		return *this;
 	}
-	void reduce()
+	Fraction& reduce()// 
 	{
 		int nod = 1;
 		for (size_t i = numerator; i > 0; i--)
@@ -120,21 +122,61 @@ public:
 		}
 		numerator /= nod;
 		denomenator /= nod;
+		return *this;
+	}
+	Fraction& _reduce()// алгоритм Эвклида
+	{
+		if (numerator == 0)return *this;
+		int more, less;
+		int rest;
+		if (numerator>denomenator)
+		{
+			more = numerator;
+			less = denomenator;
+		}
+		else
+		{
+			less = numerator;
+			more = denomenator;
+		}
+		do
+		{
+			rest = more % less;
+			more = less;
+			less = rest;
+
+		} while (rest);
+		int GCD = more;
+		numerator /= GCD;
+		denomenator /= GCD;
+		return *this;
 	}
 };
 
-Fraction operator *(Fraction left, Fraction right)
+Fraction& operator *(Fraction left, Fraction right)
 {
-	
 	left.to_impropert();
 	right.to_impropert();
-	Fraction result;
-	result.set_numerator(left.get_numerator() * right.get_numerator());
-	result.set_denomenator(left.get_denomenator() * right.get_denomenator());
+	/*Fraction result
+	(
+		left.get_numerator() * right.get_numerator(), 
+		left.get_denomenator() * right.get_denomenator()
+	);
+	
 	result.to_proper();
 	result.reduce();
-	return result;
+	return result;*/
+	return Fraction 
+	(
+		left.get_numerator() * right.get_numerator(),
+		left.get_denomenator() * right.get_denomenator()
+	).to_proper().reduce();
 }
+//Fraction operator +(Fraction left, Fraction right)
+//{
+//
+//}
+
 
 //#define CONSRUCTOR_CHECK
 
@@ -152,12 +194,15 @@ int main()
 	Fraction C(3, 2);
 	C.print();
 #endif // CONSRUCTOR_CHECK
-	Fraction A(2, 1, 2);
-	Fraction B(3, 2, 5);
+	Fraction A(0, 1, 1);
+	Fraction B(0, 840, 3600);
 	Fraction C = A * B;
+	
 	C.print();
-	C.reduce();
+	
 	C.print();
-
+	Fraction F(0, 840, 3600);
+	F._reduce();
+	F.print();
 	return 0;
 }
