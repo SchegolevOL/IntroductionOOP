@@ -104,32 +104,46 @@ public:
 	}
 	Fraction& to_impropert()//Перевод дроби в неправельную дробь
 	{
+		int minus = 0;
+		if (integer < 0)
+		{
+			minus = 1;
+			integer *= -1;
+		}
 		numerator += integer * denomenator;
 		integer = 0;
+		if (minus == 1)numerator *= -1;
 		return *this;
 	}
 	Fraction& to_proper()//Перевод дроби в правельную дробь
 	{
+		int minus = 0;
+		if (numerator<0)
+		{
+			minus = 1;
+			numerator *= -1;
+		}
 		integer += numerator / denomenator;
 		numerator %= denomenator;
+		if (minus == 1)integer *= -1;
 		return *this;
 	}
-	Fraction& reduce()// 
-	{
-		int nod = 1;
-		for (size_t i = numerator; i > 0; i--)
-		{
-			if (numerator % i == 0 && denomenator % i == 0)
-			{
-				nod = i;
-				break;
-			}
-		}
-		numerator /= nod;
-		denomenator /= nod;
-		return *this;
-	}
-	Fraction& _reduce()// алгоритм Эвклида
+	//Fraction& reduce()// 
+	//{
+	//	int nod = 1;
+	//	for (size_t i = numerator; i > 0; i--)
+	//	{
+	//		if (numerator % i == 0 && denomenator % i == 0)
+	//		{
+	//			nod = i;
+	//			break;
+	//		}
+	//	}
+	//	numerator /= nod;
+	//	denomenator /= nod;
+	//	return *this;
+	//}
+	Fraction& reduce()// алгоритм Эвклида
 	{
 		if (numerator == 0)return *this;
 		int more, less;
@@ -159,24 +173,50 @@ public:
 
 	Fraction inverted()// обращенная дробь
 	{
+		int minus = 0;
 		to_impropert();
+		if (numerator<0)
+		{
+			minus = 1;
+			numerator *= -1;
+			denomenator *= -1;
+		}
 		return Fraction(this->denomenator, this->numerator);
 	}
 	Fraction& multiple(Fraction other)
 	{
-		int nod = 1;
-		
-		for (size_t i = this->denomenator; i > 0; i--)
+		int minus = 0;
+		if (denomenator < 0)
 		{
-			if (this->denomenator % i == 0 && other.denomenator % i == 0)
-			{
-				nod = i;
-				break;
-			}
+			minus = 1;
+			numerator *= -1;
 		}
-		int nok = denomenator * other.denomenator / nod;
-		
-		this->numerator *= nok / this->denomenator;
+		if (denomenator == 0)return *this;
+		int more, less;
+		int rest;
+		if (denomenator > other.get_denomenator())
+		{
+			more = denomenator;
+			less = other.get_denomenator();
+		}
+		else
+		{
+			less = other.get_denomenator();
+			more = denomenator;
+		}
+		do
+		{
+			rest = more % less;
+			more = less;
+			less = rest;
+
+		} while (rest);
+		int GCD = more;
+		int nok = denomenator * other.denomenator / GCD;
+		if (minus==1)
+			this->numerator = this->numerator * nok / this->denomenator * -1;
+		else 
+			this->numerator = this->numerator * nok / this->denomenator;
 		this->denomenator = nok;
 		return *this;
 	}
@@ -215,8 +255,8 @@ int main()
 	C.print();
 #endif // CONSRUCTOR_CHECK
 
-	Fraction A(5, 1, 5);
-	Fraction B(3, 2, 5);
+	Fraction A(-5, 1, 100);
+	Fraction B(-3, 2, 10);
 	/*Fraction C = A * B;
 
 	C.print();
@@ -227,15 +267,18 @@ int main()
 
 	F = A / B;
 	F.print();*/
-
+	
 	A *= B;
 	A.print();
 	A /= B;
 	A.print();
+	B.print();
 	Fraction D;
-	/*D = A + B;
-	D.print();*/
+	D = A + B;
+	D.print();
 	D = A - B;
+	A.print();
+	B.print();
 	D.print();
 
 	return 0;
@@ -260,12 +303,13 @@ Fraction& operator /(Fraction left, Fraction right)
 
 Fraction& operator+(Fraction left, Fraction right)
 {
-	
+	left.to_impropert();
+	right.to_impropert();
 	return Fraction
 	(
 		left.multiple(right).get_numerator() + right.multiple(left).get_numerator(), 
 		left.multiple(right).get_denomenator()
-	).reduce();
+	).to_proper().reduce();
 }
 
 Fraction& operator-(Fraction left, Fraction right)
@@ -274,7 +318,7 @@ Fraction& operator-(Fraction left, Fraction right)
 	right.to_impropert();
 	return Fraction
 	(
-		left.multiple(right).get_numerator() - right.multiple(left).get_numerator(),
+		left.to_impropert().multiple(right).get_numerator() - right.to_impropert().multiple(left).get_numerator(),
 		left.multiple(right).get_denomenator()
 	).to_proper().reduce();
 }
