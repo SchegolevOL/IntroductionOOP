@@ -14,6 +14,8 @@ Fraction& operator /(Fraction left, Fraction right);
 Fraction& operator +(Fraction left, Fraction right);
 Fraction& operator -(Fraction left, Fraction right);
 
+
+
 class Fraction
 {
 	int numerator;
@@ -100,7 +102,7 @@ public:
 			if (integer)cout << ")";
 		}
 		else if (integer == 0)cout << 0;
-		cout << endl;
+		//cout << endl;
 	}
 	Fraction& to_impropert()//Перевод дроби в неправельную дробь
 	{
@@ -118,7 +120,7 @@ public:
 	Fraction& to_proper()//Перевод дроби в правельную дробь
 	{
 		int minus = 0;
-		if (numerator<0)
+		if (numerator < 0)
 		{
 			minus = 1;
 			numerator *= -1;
@@ -175,7 +177,7 @@ public:
 	{
 		int minus = 0;
 		to_impropert();
-		if (numerator<0)
+		if (numerator < 0)
 		{
 			minus = 1;
 			numerator *= -1;
@@ -185,12 +187,7 @@ public:
 	}
 	Fraction& multiple(Fraction other)
 	{
-		int minus = 0;
-		if (denomenator < 0)
-		{
-			minus = 1;
-			numerator *= -1;
-		}
+
 		if (denomenator == 0)return *this;
 		int more, less;
 		int rest;
@@ -213,10 +210,8 @@ public:
 		} while (rest);
 		int GCD = more;
 		int nok = denomenator * other.denomenator / GCD;
-		if (minus==1)
-			this->numerator = this->numerator * nok / this->denomenator * -1;
-		else 
-			this->numerator = this->numerator * nok / this->denomenator;
+
+		this->numerator = this->numerator * nok / this->denomenator;
 		this->denomenator = nok;
 		return *this;
 	}
@@ -230,8 +225,23 @@ public:
 	{
 		return *this = *this / other;
 	}
+	Fraction operator +=(const Fraction other)
+	{
+		return *this = *this + other;
+	}
+	Fraction operator -=(const Fraction other)
+	{
+		return *this = *this - other;
+	}
+	friend bool operator==(Fraction left, Fraction right);
+	friend bool operator<(Fraction left, Fraction right);
+	friend bool operator>( Fraction left,  Fraction right);
+	friend bool operator!=(Fraction left, Fraction right);
+	friend bool operator>=(Fraction left, Fraction right);
+	friend bool operator<=(Fraction left, Fraction right);
 
 };
+
 
 
 
@@ -257,29 +267,155 @@ int main()
 
 	Fraction A(-5, 1, 100);
 	Fraction B(-3, 2, 10);
-	/*Fraction C = A * B;
+	Fraction C = A * B;
+	cout << "\t\t\t\t\t\t\tПроверка оператора * : "; A.print(); cout << " * "; B.print(); cout << " = "; C.print(); cout << endl;
+	A=Fraction( 5, 1, 100);
+	B=Fraction(3, 2, 10);
+	C = A * B;
+	cout << "\t\t\t\t\t\t\tПроверка оператора * : "; A.print(); cout << " * "; B.print(); cout << " = "; C.print(); cout << endl;
+	A = Fraction(-5, 9, 100);
+	B = Fraction(3, 2, 10);
+	C = A * B;
+	cout << "\t\t\t\t\t\t\tПроверка оператора * : "; A.print(); cout << " * "; B.print(); cout << " = "; C.print(); cout << endl;
 
-	C.print();
+	A = Fraction(-5, 9, 100);
+	B = Fraction(3, 2, 10);
+	C = A + B;
+	cout << "\t\t\t\t\t\t\tПроверка оператора + : "; A.print(); cout << " + "; B.print(); cout << " = "; C.print(); cout << endl;
+	A = Fraction(5, 1, 100);
+	B = Fraction(3, 2, 10);
+	C = A + B;
+	cout << "\t\t\t\t\t\t\tПроверка оператора + : "; A.print(); cout << " + "; B.print(); cout << " = "; C.print(); cout << endl;
+	A = Fraction(-5, 1, 100);
+	B = Fraction(-3, 2, 10);
+	C = A + B;
+	cout << "\t\t\t\t\t\t\tПроверка оператора + : "; A.print(); cout << " + "; B.print(); cout << " = "; C.print(); cout << endl;
 
-	C.print();
-	Fraction F;
+	A = Fraction(-5, 9, 100);
+	B = Fraction(3, 2, 10);
+	C = A / B;
+	cout << "\t\t\t\t\t\t\tПроверка оператора / : "; A.print(); cout << " / "; B.print(); cout << " = "; C.print(); cout << endl;
+	A = Fraction(5, 1, 100);
+	B = Fraction(3, 2, 10);
+	C = A / B;
+	cout << "\t\t\t\t\t\t\tПроверка оператора / : "; A.print(); cout << " / "; B.print(); cout << " = "; C.print(); cout << endl;
+	A = Fraction(-5, 1, 100);
+	B = Fraction(-3, 2, 10);
+	C = A / B;
+	cout << "\t\t\t\t\t\t\tПроверка оператора / : "; A.print(); cout << " / "; B.print(); cout << " = "; C.print(); cout << endl;
 
+	A = Fraction(-5, 9, 100);
+	B = Fraction(3, 2, 10);
+	C = A - B;
+	cout << "\t\t\t\t\t\t\tПроверка оператора - : "; A.print(); cout << " - "; B.print(); cout << " = "; C.print(); cout << endl;
+	A = Fraction(5, 1, 100);
+	B = Fraction(3, 2, 10);
+	C = A - B;
+	cout << "\t\t\t\t\t\t\tПроверка оператора - : "; A.print(); cout << " - "; B.print(); cout << " = "; C.print(); cout << endl;
+	A = Fraction(-5, 1, 100);
+	B = Fraction(-3, 2, 10);
+	C = A - B;
+	cout << "\t\t\t\t\t\t\tПроверка оператора - : "; A.print(); cout << " - "; B.print(); cout << " = "; C.print(); cout << endl;
 
-	F = A / B;
-	F.print();*/
-	
+	A = Fraction(-5, 9, 100);
+	B = Fraction(3, 2, 10);	
+	cout << "\t\t\t\t\t\t\tПроверка оператора *= : "; A.print(); cout << " *= "; B.print(); cout << " = " << endl;
 	A *= B;
-	A.print();
+	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	A = Fraction(5, 1, 100);
+	B = Fraction(3, 2, 10);	
+	cout << "\t\t\t\t\t\t\tПроверка оператора *= : "; A.print(); cout << " *= "; B.print(); cout << " = "<<endl; 
+	A *= B;
+	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	A = Fraction(-5, 1, 100);
+	B = Fraction(-3, 2, 10);	
+	cout << "\t\t\t\t\t\t\tПроверка оператора *= : "; A.print(); cout << " *= "; B.print(); cout << " = " << endl;
+	A*= B;
+	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+
+	A = Fraction(-5, 9, 100);
+	B = Fraction(3, 2, 10);
+	cout << "\t\t\t\t\t\t\tПроверка оператора /= : "; A.print(); cout << " /= "; B.print(); cout << " = " << endl;
 	A /= B;
-	A.print();
-	B.print();
-	Fraction D;
-	D = A + B;
-	D.print();
-	D = A - B;
-	A.print();
-	B.print();
-	D.print();
+	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	A = Fraction(5, 1, 100);
+	B = Fraction(3, 2, 10);
+	cout << "\t\t\t\t\t\t\tПроверка оператора /= : "; A.print(); cout << " /= "; B.print(); cout << " = " << endl;
+	A /= B;
+	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	A = Fraction(-5, 1, 100);
+	B = Fraction(-3, 2, 10);
+	cout << "\t\t\t\t\t\t\tПроверка оператора /= : "; A.print(); cout << " /= "; B.print(); cout << " = " << endl;
+	A /= B;
+	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+
+	A = Fraction(-5, 9, 100);
+	B = Fraction(3, 2, 10);
+	cout << "\t\t\t\t\t\t\tПроверка оператора += : "; A.print(); cout << " += "; B.print(); cout << " = " << endl;
+	A += B;
+	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	A = Fraction(5, 1, 100);
+	B = Fraction(3, 2, 10);
+	cout << "\t\t\t\t\t\t\tПроверка оператора += : "; A.print(); cout << " += "; B.print(); cout << " = " << endl;
+	A += B;
+	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	A = Fraction(-5, 1, 100);
+	B = Fraction(-3, 2, 10);
+	cout << "\t\t\t\t\t\t\tПроверка оператора += : "; A.print(); cout << " += "; B.print(); cout << " = " << endl;
+	A += B;
+	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+
+	A = Fraction(-5, 9, 100);
+	B = Fraction(3, 2, 10);
+	cout << "\t\t\t\t\t\t\tПроверка оператора -= : "; A.print(); cout << " -= "; B.print(); cout << " = " << endl;
+	A -= B;
+	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	A = Fraction(5, 1, 100);
+	B = Fraction(3, 2, 10);
+	cout << "\t\t\t\t\t\t\tПроверка оператора -= : "; A.print(); cout << " -= "; B.print(); cout << " = " << endl;
+	A -= B;
+	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	A = Fraction(-5, 1, 100);
+	B = Fraction(-3, 2, 10);
+	cout << "\t\t\t\t\t\t\tПроверка оператора -= : "; A.print(); cout << " -= "; B.print(); cout << " = " << endl;
+	A -= B;
+	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+
+	A = Fraction(-5, 2, 10);
+	B = Fraction(5, 2, 10);
+	cout << "\t\t\t\t\t\t\tПроверка оператора == : "; A.print(); cout << " == "; B.print(); cout << endl;
+	if (A==B) cout << "\t\t\t\t\t\t\t\t\t\t\tyes" << endl;
+	else cout << "\t\t\t\t\t\t\t\t\t no" << endl;
+
+	A = Fraction(-5, 2, 10);
+	B = Fraction(5, 2, 10);
+	cout << "\t\t\t\t\t\t\tПроверка оператора != : "; A.print(); cout << " != "; B.print(); cout << endl;
+	if (A != B) cout << "\t\t\t\t\t\t\t\t\t\t\tyes" << endl;
+	else cout << "\t\t\t\t\t\t\t\t\t no" << endl;
+
+	A = Fraction(5, 2, 10);
+	B = Fraction(-6, 2, 10);
+	cout << "\t\t\t\t\t\t\tПроверка оператора < : "; A.print(); cout << " < "; B.print(); cout << endl;
+	if (A < B) cout << "\t\t\t\t\t\t\t\t\t\t\tyes" << endl;
+	else cout << "\t\t\t\t\t\t\t\t\tno" << endl;
+
+	A = Fraction(-6, 2, 10);
+	B = Fraction(5, 2, 10);
+	cout << "\t\t\t\t\t\t\tПроверка оператора > : "; A.print(); cout << " > "; B.print(); cout << endl;
+	if (A > B) cout << "\t\t\t\t\t\t\t\t\t\t\tyes" << endl;
+	else cout << "\t\t\t\t\t\t\t\t\t no" << endl;
+
+	A = Fraction(-5, 2, 10);
+	B = Fraction(5, 2, 10);
+	cout << "\t\t\t\t\t\t\tПроверка оператора <= : "; A.print(); cout << " <= "; B.print(); cout << endl;
+	if (A <= B) cout << "\t\t\t\t\t\t\t\t\t\t\tyes" << endl;
+	else cout << "\t\t\t\t\t\t\t\t\t no" << endl;
+
+	A = Fraction(-6, 2, 10);
+	B = Fraction(5, 2, 10);
+	cout << "\t\t\t\t\t\t\tПроверка оператора >= : "; A.print(); cout << " >= "; B.print(); cout << endl;
+	if (A >= B) cout << "\t\t\t\t\t\t\t\t\t\t\tyes" << endl;
+	else cout << "\t\t\t\t\t\t\t\t\t no" << endl;
 
 	return 0;
 }
@@ -307,7 +443,7 @@ Fraction& operator+(Fraction left, Fraction right)
 	right.to_impropert();
 	return Fraction
 	(
-		left.multiple(right).get_numerator() + right.multiple(left).get_numerator(), 
+		left.multiple(right).get_numerator() + right.multiple(left).get_numerator(),
 		left.multiple(right).get_denomenator()
 	).to_proper().reduce();
 }
@@ -321,4 +457,50 @@ Fraction& operator-(Fraction left, Fraction right)
 		left.to_impropert().multiple(right).get_numerator() - right.to_impropert().multiple(left).get_numerator(),
 		left.multiple(right).get_denomenator()
 	).to_proper().reduce();
+}
+
+bool operator==(Fraction left, Fraction right)
+{	
+	left.to_impropert().multiple(right);
+	right.to_impropert().multiple(left);
+	return (left.get_numerator()== right.get_numerator()&&
+		 left.get_denomenator() == right.get_denomenator()
+		 );
+}
+
+bool operator<(Fraction left, Fraction right)
+{
+	left.to_impropert().multiple(right);
+	right.to_impropert().multiple(left);
+	return (left.get_numerator() < right.get_numerator());
+}
+
+bool operator>( Fraction left,  Fraction right)
+{
+	left.to_impropert().multiple(right);
+	right.to_impropert().multiple(left);
+	return (left.get_numerator() > right.get_numerator());
+}
+
+bool operator!=(Fraction left, Fraction right)
+{
+	left.to_impropert().multiple(right);
+	right.to_impropert().multiple(left);
+	return !(left.get_numerator() == right.get_numerator() &&
+		left.get_denomenator() == right.get_denomenator()
+		);
+}
+
+bool operator>=(Fraction left, Fraction right)
+{
+	left.to_impropert().multiple(right);
+	right.to_impropert().multiple(left);
+	return (left.get_numerator() >= right.get_numerator());
+}
+
+bool operator<=(Fraction left, Fraction right)
+{
+	left.to_impropert().multiple(right);
+	right.to_impropert().multiple(left);
+	return (left.get_numerator() <= right.get_numerator());
 }
