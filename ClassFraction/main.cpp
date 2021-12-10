@@ -24,7 +24,7 @@ bool operator>(Fraction left, Fraction right);
 bool operator!=(Fraction left, Fraction right);
 bool operator>=(Fraction left, Fraction right);
 bool operator<=(Fraction left, Fraction right);
-int digit_number(double value);
+int digit_number_part(double value);
 int fractional_part(double value);
 
 class Fraction
@@ -93,11 +93,11 @@ public:
 		cout << "2agrsConstructor:\t" << this << endl;
 	}
 
-	explicit Fraction(double value)
+	Fraction(double value)
 	{
 		this->integer = int(value);
-		this->numerator = fabs(int((value - int(value))*10000));
-		this->denomenator = 10000;
+		this->numerator = fractional_part(value);
+		this->denomenator = pow(10, digit_number_part(value));
 		cout << "1agrConstructor:\t" << this << endl;
 	}
 
@@ -115,7 +115,7 @@ public:
 		return integer;
 	}
 
-	explicit operator double()const
+	operator double()const
 	{
 		return integer + double(numerator) / denomenator;
 	}
@@ -472,17 +472,20 @@ int main()
 	cout << a << endl;
 #endif // CONVERSION_CLASS_TO_OTHER
 #ifdef HOME_WORK
-	Fraction A(-2, 3, 4);
-	double a = double(A);
+	Fraction A(2, 3, 4);
+	double a = A;
 	cout << a << endl;
-	double b = -2.25;
-	Fraction B = Fraction(b);
-	B.reduce().print();
+	double b = 2.75;
+	Fraction B = b;
+	B.print();
 
 #endif // HOME_WORK
-
-	
-
+	/*for (size_t i = 0; i < 10000; i++)
+	{
+		cout << fractional_part(1+i/10000.0) << endl;
+	}
+	cout << fractional_part(1.13) << endl;
+	cout << digit_number_part(1.13) << endl;*/
 
 
 
@@ -573,31 +576,50 @@ bool operator<=(Fraction left, Fraction right)
 	return (left.get_numerator() <= right.get_numerator());
 }
 
-int digit_number(double value)
+int digit_number_part(double value)
 {
-	int digit = 1;
-	while (value > pow(10, digit))
+	int diget = 0;
+	int part = (int)value;
+	value = value - part;
+	if (value == 0) return 0;
+	
+	while (double(value - part) != 0)
 	{
-		digit++;
-		value /= 10;
+		value *= 10;
+
+		if (value > 2147483647)break;
+		part = int(value);
+		if (part % 10 != 0)part += 1;
+		diget++;
 	}
-	return digit;
+	while (part % 10 == 0)
+	{
+		part /= 10;
+		diget--;
+	}
+	return diget;
 }
 
 int fractional_part(double value)
 {
-	int digit = 1;
-	int part = 0;
-	int value_int = int(value);
-	int i = 0;
-	value += 0.001;
-	while (value_int!=value)
+	int part=(int)value;
+	value = value - part;
+	if (value==0) return 0;
+	int i = 1;
+	while (double(value - part) != 0)
 	{
 		value *= 10;
-		value_int *= 10;
-		part =part * pow(10, i) + int(value - value_int);
-		value_int = int(value);
+		
+		if (value > 2147483647)break;
+		part = int(value);
+		if (part % 10 != 0)part += 1;
 		i++;
 	}
-	return part-1;
+	while (part % 10 == 0)
+	{
+		part /= 10;
+	}
+	return part;
 }
+
+
