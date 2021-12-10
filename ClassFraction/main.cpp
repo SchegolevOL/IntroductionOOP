@@ -96,7 +96,7 @@ public:
 	Fraction(double value)
 	{
 		this->integer = int(value);
-		this->numerator = fractional_part(value);
+		this->numerator = fabs(fractional_part(value));
 		this->denomenator = pow(10, digit_number_part(value));
 		cout << "1agrConstructor:\t" << this << endl;
 	}
@@ -117,7 +117,7 @@ public:
 
 	operator double()const
 	{
-		return integer + double(numerator) / denomenator;
+		return integer < 0 ? integer - double(numerator) / denomenator : fabs(integer) + double(numerator) / denomenator;
 	}
 
 	//----------------Methods:--------------------
@@ -472,10 +472,10 @@ int main()
 	cout << a << endl;
 #endif // CONVERSION_CLASS_TO_OTHER
 #ifdef HOME_WORK
-	Fraction A(2, 3, 4);
+	Fraction A(-2, 3, 4);
 	double a = A;
 	cout << a << endl;
-	double b = 2.75;
+	double b = -2.75;
 	Fraction B = b;
 	B.print();
 
@@ -576,46 +576,41 @@ bool operator<=(Fraction left, Fraction right)
 	return (left.get_numerator() <= right.get_numerator());
 }
 
-int digit_number_part(double value)
+int digit_number_part(double value)//функция подсчета разрядов
 {
 	int diget = 0;
 	int part = (int)value;
 	value = value - part;
-	if (value == 0) return 0;
-	
+	if (value == 0) return 0;	
 	while (double(value - part) != 0)
 	{
 		value *= 10;
-
-		if (value > 2147483647)break;
+		if (value > 2147483647)break;//проверка на максимальное число типа int
 		part = int(value);
-		if (part % 10 != 0)part += 1;
-		diget++;
+		if (part % 10 != 0)part += 1;//устронение погрешности double
+		diget++;//подсчет разрядов
 	}
 	while (part % 10 == 0)
 	{
-		part /= 10;
-		diget--;
+		part /= 10;//убираем 0 с права числа
+		diget--;//уменьшаем разрядность числа 
 	}
 	return diget;
 }
 
-int fractional_part(double value)
+int fractional_part(double value)//функция перевода дробной части double в int-овое значение 2,36->36
 {
 	int part=(int)value;
 	value = value - part;
 	if (value==0) return 0;
-	int i = 1;
 	while (double(value - part) != 0)
 	{
-		value *= 10;
-		
-		if (value > 2147483647)break;
+		value *= 10;		
+		if (value > 2147483647)break;//проверка на максимальное число типа int
 		part = int(value);
-		if (part % 10 != 0)part += 1;
-		i++;
+		if (part % 10 != 0)part += 1;//устронение погрешности double
 	}
-	while (part % 10 == 0)
+	while (part % 10 == 0)//убираем 0 с права числа
 	{
 		part /= 10;
 	}
