@@ -475,7 +475,7 @@ int main()
 	Fraction A(-2, 3, 4);
 	double a = A;
 	cout << a << endl;
-	double b = 2.75;
+	double b = 2.123456789;
 	Fraction B = b;
 	B.print();
 
@@ -578,18 +578,16 @@ bool operator<=(Fraction left, Fraction right)
 
 int digit_number_part(double value)//функция подсчета разрядов
 {
-	int diget = 0;
+	int diget = 0;//колличество разрядов знаменателя
 	int part = (int)value;
 	value = value - part;
 	if (value == 0) return 0;	
-	while (double(value - part) <= 0.00000000001)
+	while (diget < 8)
 	{
 		value *= 10;
 		part = int(value);
 		diget++;//подсчет разрядов
 		if (part % 10 != 0 && diget != 8)part += 1;//устронение погрешности double
-		
-		if (diget > 8)break;
 	}
 	while (part % 10 == 0)
 	{
@@ -601,18 +599,17 @@ int digit_number_part(double value)//функция подсчета разря�
 
 int fractional_part(double value)//функция перевода дробной части double в int-овое значение 2,36->36
 {
-	int part=(int)value;
-	value = value - part;
+	int part=0;
+	value = value - (int)value;
 	if (value==0) return 0;
-	int i = 0;
-	while (double(value - part) <=0.000000001)
+	int i = 0;//колличество разрядов знаменателя
+	while (i < 8)
 	{
 		value *= 10;
 		part = int(value);
 		i++;
 		if (part % 10 != 0 && i != 8)part += 1;//устронение погрешности double
 		
-		if (i > 8)break;
 	}
 	while (part % 10 == 0)//убираем 0 с права числа
 	{
