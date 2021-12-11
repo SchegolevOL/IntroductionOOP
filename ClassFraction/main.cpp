@@ -475,7 +475,7 @@ int main()
 	Fraction A(-2, 3, 4);
 	double a = A;
 	cout << a << endl;
-	double b = 2.12345678912345;
+	double b = 2.75;
 	Fraction B = b;
 	B.print();
 
@@ -585,10 +585,10 @@ int digit_number_part(double value)//функция подсчета разря�
 	while (double(value - part) <= 0.00000000001)
 	{
 		value *= 10;
-		if (value > 2147483647)break;//проверка на максимальное число типа int
 		part = int(value);
-		if (part % 10 != 0)part += 1;//устронение погрешности double
 		diget++;//подсчет разрядов
+		if (part % 10 != 0 && diget != 8)part += 1;//устронение погрешности double
+		
 		if (diget > 8)break;
 	}
 	while (part % 10 == 0)
@@ -608,8 +608,6 @@ int fractional_part(double value)//функция перевода дробно�
 	while (double(value - part) <=0.000000001)
 	{
 		value *= 10;
-		
-		//if (value > 2147483647)break;//проверка на максимальное число типа int
 		part = int(value);
 		i++;
 		if (part % 10 != 0 && i != 8)part += 1;//устронение погрешности double
