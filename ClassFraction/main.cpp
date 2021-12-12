@@ -97,7 +97,7 @@ public:
 	{	
 		/*this->integer = int(value);
 		value = (value - int(value)) * 100000000;
-		int i = 8;
+		int i = 9;
 		while (int(value) % 10 == 0)
 		{
 			value /= 10;
@@ -594,7 +594,7 @@ int digit_number_part(double value)//функция подсчета разря�
 	int part = (int)value;
 	value = value - part;
 	if (value == 0) return 0;	
-	while (diget < 8)
+	while (diget < 9)
 	{
 		value *= 10;
 		part = int(value);
@@ -615,7 +615,7 @@ int fractional_part(double value)//функция перевода дробно�
 	value = value - (int)value;
 	if (value==0) return 0;
 	int i = 0;//колличество разрядов знаменателя
-	while (i < 8)
+	while (i < 9)
 	{
 		value *= 10;
 		part = int(value);
