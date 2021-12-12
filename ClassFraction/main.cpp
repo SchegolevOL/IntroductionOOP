@@ -94,11 +94,22 @@ public:
 	}
 
 	Fraction(double value)
-	{
+	{	
+		this->integer = int(value);
+		value = (value - int(value)) * 100000000;
+		int i = 8;
+		while (int(value) % 10 == 0)
+		{
+			value /= 10;
+			i--;
+		}		
+		this->numerator = int(value);
+		this->denomenator = pow(10, i);
+		cout << "1agrConstructor:\t" << this << endl;
+		/*
 		this->integer = int(value);
 		this->numerator = fabs(fractional_part(value));
-		this->denomenator = pow(10, digit_number_part(value));
-		cout << "1agrConstructor:\t" << this << endl;
+		this->denomenator = pow(10, digit_number_part(value));*/
 	}
 
 
@@ -475,7 +486,8 @@ int main()
 	Fraction A(-2, 3, 4);
 	double a = A;
 	cout << a << endl;
-	double b = 2.123456789;
+	double b = 2.750;
+	
 	Fraction B = b;
 	B.print();
 
