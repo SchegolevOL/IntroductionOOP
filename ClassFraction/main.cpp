@@ -486,7 +486,7 @@ int main()
 	Fraction A(-2, 3, 4);
 	double a = A;
 	cout << a << endl;
-	double b = 2.12345;
+	double b = 2.76;
 	
 	Fraction B = b;
 	B.print();
@@ -620,7 +620,7 @@ int fractional_part(double value)//функция перевода дробно�
 		value *= 10;
 		part = int(value);
 		i++;
-		if (part % 10 != 0 && i != 8)part += 1;//устронение погрешности double
+		if (part % 10 != 0)part += 1;//устронение погрешности double
 		
 	}
 	while (part % 10 == 0)//убираем 0 с права числа
