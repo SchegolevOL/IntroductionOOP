@@ -502,16 +502,9 @@ int main()
 	
 	Fraction A(2,3,4);
 	cout << A << endl;
-
-	A.print();
-	
-
-	
+	A.print();	
 	cin >> A;
-
 	cout << A << endl;
-
-
 	return 0;
 }
 
@@ -671,10 +664,11 @@ std::istream& operator>>(std::istream& in, Fraction& obj)
 		if (ch[0] == '-')z = -1;
 		if (ch[i] == '(')f = 1;
 		if (ch[i] == '/')f = 2;
-		if (ch[i] >= '0' && ch[i] <= '9' && f == 0)integer = (integer * 10 + (ch[i] - '0')) * z;
+		if (ch[i] >= '0' && ch[i] <= '9' && f == 0)integer = (integer * 10 + (ch[i] - '0')); 
 		if (ch[i] >= '0' && ch[i] <= '9' && f == 1)numerator = (numerator * 10 + (ch[i] - '0'));
 		if (ch[i] >= '0' && ch[i] <= '9' && f == 2)denomenator = (denomenator*10 + (ch[i] - '0'));
 	}
+	if (z == -1)integer = integer* (-1);
 	obj.set_integer(integer);
 	obj.set_numerator(numerator);
 	obj.set_denomenator(denomenator);
