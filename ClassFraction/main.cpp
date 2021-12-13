@@ -660,7 +660,8 @@ std::istream& operator>>(std::istream& in, Fraction& obj)
 	obj.set_integer(a);
 	obj.set_numerator(b);
 	obj.set_denomenator(c);*/
-	int a=0, b=0, c=0;
+
+	int integer=0, numerator=0, denomenator=0;
 	int z = 1;
 	int f=0;
 	char ch[30];
@@ -670,13 +671,13 @@ std::istream& operator>>(std::istream& in, Fraction& obj)
 		if (ch[0] == '-')z = -1;
 		if (ch[i] == '(')f = 1;
 		if (ch[i] == '/')f = 2;
-		if (ch[i] >= '0' && ch[i] <= '9' && f == 0)a = (a * 10 + (ch[i] - '0')) * z;
-		if (ch[i] >= '0' && ch[i] <= '9' && f == 1)b = (b * 10 + (ch[i] - '0'));
-		if (ch[i] >= '0' && ch[i] <= '9' && f == 2)c = (c*10 + (ch[i] - '0'));
+		if (ch[i] >= '0' && ch[i] <= '9' && f == 0)integer = (integer * 10 + (ch[i] - '0')) * z;
+		if (ch[i] >= '0' && ch[i] <= '9' && f == 1)numerator = (numerator * 10 + (ch[i] - '0'));
+		if (ch[i] >= '0' && ch[i] <= '9' && f == 2)denomenator = (denomenator*10 + (ch[i] - '0'));
 	}
-		obj.set_integer(a);
-		obj.set_numerator(b);
-		obj.set_denomenator(c);
+	obj.set_integer(integer);
+	obj.set_numerator(numerator);
+	obj.set_denomenator(denomenator);
 
 	return in;
 }
