@@ -27,6 +27,7 @@ bool operator<=(Fraction left, Fraction right);
 int digit_number_part(double value);
 int fractional_part(double value);
 
+
 class Fraction
 {
 	int numerator;
@@ -50,7 +51,7 @@ public:
 		return denomenator;
 	}
 	//-----------set--------------запись
-	void set_integer(int x)
+	void set_integer(int integer)
 	{
 		this->integer = integer;
 	}
@@ -105,11 +106,16 @@ public:
 		}		
 		this->numerator = int(value);
 		this->denomenator = pow(10, i);
-		cout << "1agrConstructor:\t" << this << endl;*/
+		os << "1agrConstructor:\t" << this << endl;*/
 		
-		this->integer = int(value);
+		/*this->integer = int(value);
 		this->numerator = fabs(fractional_part(value));
-		this->denomenator = pow(10, digit_number_part(value));
+		this->denomenator = pow(10, digit_number_part(value));*/
+		value += 1e-11;
+		integer = value;
+		denomenator = 1e+9;
+		numerator = ((value)-integer) * denomenator;
+		reduce();
 	}
 
 
@@ -126,23 +132,23 @@ public:
 		return integer;
 	}
 
-	operator double()const
+	explicit operator double()const
 	{
 		return integer < 0 ? integer - double(numerator) / denomenator : fabs(integer) + double(numerator) / denomenator;
 	}
 
 	//----------------Methods:--------------------
-	void print()const
+	std::ostream& print(std::ostream& os = cout)const
 	{
-		if (integer) cout << integer;
+		if (integer) os << integer;
 		if (numerator)
 		{
-			if (integer)cout << "(";
-			cout << numerator << "/" << denomenator;
-			if (integer)cout << ")";
+			if (integer)os << "(";
+			os << numerator << "/" << denomenator;
+			if (integer)os << ")";
 		}
-		else if (integer == 0)cout << 0;
-		cout << endl;
+		else if (integer == 0)os << 0;
+		return os;
 	}
 	Fraction& to_impropert()//Перевод дроби в неправельную дробь
 	{
@@ -282,8 +288,10 @@ public:
 //#define TYPE_CONVERSION_BASICS
 //#define CONVERSION_FROM_OTHER_TO_CLASS
 //#define CONVERSION_CLASS_TO_OTHER
-#define HOME_WORK
+//#define HOME_WORK
 
+std::ostream& operator<<(std::ostream& os, const Fraction& obj);
+std::istream& operator>>(std::istream& in, Fraction& obj);
 int main()
 {
 	SetConsoleCP(1251);
@@ -305,154 +313,154 @@ int main()
 	Fraction A(-5, 1, 100);
 	Fraction B(-3, 2, 10);
 	Fraction C = A * B;
-	cout << "\t\t\t\t\t\t\tПроверка оператора * : "; A.print(); cout << " * "; B.print(); cout << " = "; C.print(); cout << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора * : "; A.print(); os << " * "; B.print(); os << " = "; C.print(); os << endl;
 	A=Fraction( 5, 1, 100);
 	B=Fraction(3, 2, 10);
 	C = A * B;
-	cout << "\t\t\t\t\t\t\tПроверка оператора * : "; A.print(); cout << " * "; B.print(); cout << " = "; C.print(); cout << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора * : "; A.print(); os << " * "; B.print(); os << " = "; C.print(); os << endl;
 	A = Fraction(-5, 9, 100);
 	B = Fraction(3, 2, 10);
 	C = A * B;
-	cout << "\t\t\t\t\t\t\tПроверка оператора * : "; A.print(); cout << " * "; B.print(); cout << " = "; C.print(); cout << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора * : "; A.print(); os << " * "; B.print(); os << " = "; C.print(); os << endl;
 
 	A = Fraction(-5, 9, 100);
 	B = Fraction(3, 2, 10);
 	C = A + B;
-	cout << "\t\t\t\t\t\t\tПроверка оператора + : "; A.print(); cout << " + "; B.print(); cout << " = "; C.print(); cout << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора + : "; A.print(); os << " + "; B.print(); os << " = "; C.print(); os << endl;
 	A = Fraction(5, 1, 100);
 	B = Fraction(3, 2, 10);
 	C = A + B;
-	cout << "\t\t\t\t\t\t\tПроверка оператора + : "; A.print(); cout << " + "; B.print(); cout << " = "; C.print(); cout << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора + : "; A.print(); os << " + "; B.print(); os << " = "; C.print(); os << endl;
 	A = Fraction(-5, 1, 100);
 	B = Fraction(-3, 2, 10);
 	C = A + B;
-	cout << "\t\t\t\t\t\t\tПроверка оператора + : "; A.print(); cout << " + "; B.print(); cout << " = "; C.print(); cout << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора + : "; A.print(); os << " + "; B.print(); os << " = "; C.print(); os << endl;
 
 	A = Fraction(-5, 9, 100);
 	B = Fraction(3, 2, 10);
 	C = A / B;
-	cout << "\t\t\t\t\t\t\tПроверка оператора / : "; A.print(); cout << " / "; B.print(); cout << " = "; C.print(); cout << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора / : "; A.print(); os << " / "; B.print(); os << " = "; C.print(); os << endl;
 	A = Fraction(5, 1, 100);
 	B = Fraction(3, 2, 10);
 	C = A / B;
-	cout << "\t\t\t\t\t\t\tПроверка оператора / : "; A.print(); cout << " / "; B.print(); cout << " = "; C.print(); cout << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора / : "; A.print(); os << " / "; B.print(); os << " = "; C.print(); os << endl;
 	A = Fraction(-5, 1, 100);
 	B = Fraction(-3, 2, 10);
 	C = A / B;
-	cout << "\t\t\t\t\t\t\tПроверка оператора / : "; A.print(); cout << " / "; B.print(); cout << " = "; C.print(); cout << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора / : "; A.print(); os << " / "; B.print(); os << " = "; C.print(); os << endl;
 
 	A = Fraction(-5, 9, 100);
 	B = Fraction(3, 2, 10);
 	C = A - B;
-	cout << "\t\t\t\t\t\t\tПроверка оператора - : "; A.print(); cout << " - "; B.print(); cout << " = "; C.print(); cout << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора - : "; A.print(); os << " - "; B.print(); os << " = "; C.print(); os << endl;
 	A = Fraction(5, 1, 100);
 	B = Fraction(3, 2, 10);
 	C = A - B;
-	cout << "\t\t\t\t\t\t\tПроверка оператора - : "; A.print(); cout << " - "; B.print(); cout << " = "; C.print(); cout << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора - : "; A.print(); os << " - "; B.print(); os << " = "; C.print(); os << endl;
 	A = Fraction(-5, 1, 100);
 	B = Fraction(-3, 2, 10);
 	C = A - B;
-	cout << "\t\t\t\t\t\t\tПроверка оператора - : "; A.print(); cout << " - "; B.print(); cout << " = "; C.print(); cout << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора - : "; A.print(); os << " - "; B.print(); os << " = "; C.print(); os << endl;
 
 	A = Fraction(-5, 9, 100);
 	B = Fraction(3, 2, 10);	
-	cout << "\t\t\t\t\t\t\tПроверка оператора *= : "; A.print(); cout << " *= "; B.print(); cout << " = " << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора *= : "; A.print(); os << " *= "; B.print(); os << " = " << endl;
 	A *= B;
-	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	os << "\t\t\t\t\t\t\t\t\t"; A.print(); os << endl;
 	A = Fraction(5, 1, 100);
 	B = Fraction(3, 2, 10);	
-	cout << "\t\t\t\t\t\t\tПроверка оператора *= : "; A.print(); cout << " *= "; B.print(); cout << " = "<<endl; 
+	os << "\t\t\t\t\t\t\tПроверка оператора *= : "; A.print(); os << " *= "; B.print(); os << " = "<<endl; 
 	A *= B;
-	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	os << "\t\t\t\t\t\t\t\t\t"; A.print(); os << endl;
 	A = Fraction(-5, 1, 100);
 	B = Fraction(-3, 2, 10);	
-	cout << "\t\t\t\t\t\t\tПроверка оператора *= : "; A.print(); cout << " *= "; B.print(); cout << " = " << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора *= : "; A.print(); os << " *= "; B.print(); os << " = " << endl;
 	A*= B;
-	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	os << "\t\t\t\t\t\t\t\t\t"; A.print(); os << endl;
 
 	A = Fraction(-5, 9, 100);
 	B = Fraction(3, 2, 10);
-	cout << "\t\t\t\t\t\t\tПроверка оператора /= : "; A.print(); cout << " /= "; B.print(); cout << " = " << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора /= : "; A.print(); os << " /= "; B.print(); os << " = " << endl;
 	A /= B;
-	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	os << "\t\t\t\t\t\t\t\t\t"; A.print(); os << endl;
 	A = Fraction(5, 1, 100);
 	B = Fraction(3, 2, 10);
-	cout << "\t\t\t\t\t\t\tПроверка оператора /= : "; A.print(); cout << " /= "; B.print(); cout << " = " << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора /= : "; A.print(); os << " /= "; B.print(); os << " = " << endl;
 	A /= B;
-	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	os << "\t\t\t\t\t\t\t\t\t"; A.print(); os << endl;
 	A = Fraction(-5, 1, 100);
 	B = Fraction(-3, 2, 10);
-	cout << "\t\t\t\t\t\t\tПроверка оператора /= : "; A.print(); cout << " /= "; B.print(); cout << " = " << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора /= : "; A.print(); os << " /= "; B.print(); os << " = " << endl;
 	A /= B;
-	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	os << "\t\t\t\t\t\t\t\t\t"; A.print(); os << endl;
 
 	A = Fraction(-5, 9, 100);
 	B = Fraction(3, 2, 10);
-	cout << "\t\t\t\t\t\t\tПроверка оператора += : "; A.print(); cout << " += "; B.print(); cout << " = " << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора += : "; A.print(); os << " += "; B.print(); os << " = " << endl;
 	A += B;
-	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	os << "\t\t\t\t\t\t\t\t\t"; A.print(); os << endl;
 	A = Fraction(5, 1, 100);
 	B = Fraction(3, 2, 10);
-	cout << "\t\t\t\t\t\t\tПроверка оператора += : "; A.print(); cout << " += "; B.print(); cout << " = " << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора += : "; A.print(); os << " += "; B.print(); os << " = " << endl;
 	A += B;
-	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	os << "\t\t\t\t\t\t\t\t\t"; A.print(); os << endl;
 	A = Fraction(-5, 1, 100);
 	B = Fraction(-3, 2, 10);
-	cout << "\t\t\t\t\t\t\tПроверка оператора += : "; A.print(); cout << " += "; B.print(); cout << " = " << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора += : "; A.print(); os << " += "; B.print(); os << " = " << endl;
 	A += B;
-	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	os << "\t\t\t\t\t\t\t\t\t"; A.print(); os << endl;
 
 	A = Fraction(-5, 9, 100);
 	B = Fraction(3, 2, 10);
-	cout << "\t\t\t\t\t\t\tПроверка оператора -= : "; A.print(); cout << " -= "; B.print(); cout << " = " << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора -= : "; A.print(); os << " -= "; B.print(); os << " = " << endl;
 	A -= B;
-	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	os << "\t\t\t\t\t\t\t\t\t"; A.print(); os << endl;
 	A = Fraction(5, 1, 100);
 	B = Fraction(3, 2, 10);
-	cout << "\t\t\t\t\t\t\tПроверка оператора -= : "; A.print(); cout << " -= "; B.print(); cout << " = " << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора -= : "; A.print(); os << " -= "; B.print(); os << " = " << endl;
 	A -= B;
-	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	os << "\t\t\t\t\t\t\t\t\t"; A.print(); os << endl;
 	A = Fraction(-5, 1, 100);
 	B = Fraction(-3, 2, 10);
-	cout << "\t\t\t\t\t\t\tПроверка оператора -= : "; A.print(); cout << " -= "; B.print(); cout << " = " << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора -= : "; A.print(); os << " -= "; B.print(); os << " = " << endl;
 	A -= B;
-	cout << "\t\t\t\t\t\t\t\t\t"; A.print(); cout << endl;
+	os << "\t\t\t\t\t\t\t\t\t"; A.print(); os << endl;
 
 	A = Fraction(-5, 2, 10);
 	B = Fraction(5, 2, 10);
-	cout << "\t\t\t\t\t\t\tПроверка оператора == : "; A.print(); cout << " == "; B.print(); cout << endl;
-	if (A==B) cout << "\t\t\t\t\t\t\t\t\t\t\tyes" << endl;
-	else cout << "\t\t\t\t\t\t\t\t\t no" << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора == : "; A.print(); os << " == "; B.print(); os << endl;
+	if (A==B) os << "\t\t\t\t\t\t\t\t\t\t\tyes" << endl;
+	else os << "\t\t\t\t\t\t\t\t\t no" << endl;
 
 	A = Fraction(-5, 2, 10);
 	B = Fraction(5, 2, 10);
-	cout << "\t\t\t\t\t\t\tПроверка оператора != : "; A.print(); cout << " != "; B.print(); cout << endl;
-	if (A != B) cout << "\t\t\t\t\t\t\t\t\t\t\tyes" << endl;
-	else cout << "\t\t\t\t\t\t\t\t\t no" << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора != : "; A.print(); os << " != "; B.print(); os << endl;
+	if (A != B) os << "\t\t\t\t\t\t\t\t\t\t\tyes" << endl;
+	else os << "\t\t\t\t\t\t\t\t\t no" << endl;
 
 	A = Fraction(5, 2, 10);
 	B = Fraction(-6, 2, 10);
-	cout << "\t\t\t\t\t\t\tПроверка оператора < : "; A.print(); cout << " < "; B.print(); cout << endl;
-	if (A < B) cout << "\t\t\t\t\t\t\t\t\t\t\tyes" << endl;
-	else cout << "\t\t\t\t\t\t\t\t\tno" << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора < : "; A.print(); os << " < "; B.print(); os << endl;
+	if (A < B) os << "\t\t\t\t\t\t\t\t\t\t\tyes" << endl;
+	else os << "\t\t\t\t\t\t\t\t\tno" << endl;
 
 	A = Fraction(-6, 2, 10);
 	B = Fraction(5, 2, 10);
-	cout << "\t\t\t\t\t\t\tПроверка оператора > : "; A.print(); cout << " > "; B.print(); cout << endl;
-	if (A > B) cout << "\t\t\t\t\t\t\t\t\t\t\tyes" << endl;
-	else cout << "\t\t\t\t\t\t\t\t\t no" << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора > : "; A.print(); os << " > "; B.print(); os << endl;
+	if (A > B) os << "\t\t\t\t\t\t\t\t\t\t\tyes" << endl;
+	else os << "\t\t\t\t\t\t\t\t\t no" << endl;
 
 	A = Fraction(-5, 2, 10);
 	B = Fraction(5, 2, 10);
-	cout << "\t\t\t\t\t\t\tПроверка оператора <= : "; A.print(); cout << " <= "; B.print(); cout << endl;
-	if (A <= B) cout << "\t\t\t\t\t\t\t\t\t\t\tyes" << endl;
-	else cout << "\t\t\t\t\t\t\t\t\t no" << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора <= : "; A.print(); os << " <= "; B.print(); os << endl;
+	if (A <= B) os << "\t\t\t\t\t\t\t\t\t\t\tyes" << endl;
+	else os << "\t\t\t\t\t\t\t\t\t no" << endl;
 
 	A = Fraction(-6, 2, 10);
 	B = Fraction(5, 2, 10);
-	cout << "\t\t\t\t\t\t\tПроверка оператора >= : "; A.print(); cout << " >= "; B.print(); cout << endl;
-	if (A >= B) cout << "\t\t\t\t\t\t\t\t\t\t\tyes" << endl;
-	else cout << "\t\t\t\t\t\t\t\t\t no" << endl;
+	os << "\t\t\t\t\t\t\tПроверка оператора >= : "; A.print(); os << " >= "; B.print(); os << endl;
+	if (A >= B) os << "\t\t\t\t\t\t\t\t\t\t\tyes" << endl;
+	else os << "\t\t\t\t\t\t\t\t\t no" << endl;
 #endif // OPERATORS_CHECK	
 #ifdef TYPE_CONVERSION_BASICS
 	int a = 2;		//no converion (нет приобразования)
@@ -480,28 +488,28 @@ int main()
 	int a = int(A);
 	int b(A);
 	int c = (int)A;
-	cout << a << endl;
+	os << a << endl;
 #endif // CONVERSION_CLASS_TO_OTHER
 #ifdef HOME_WORK
-	Fraction A(-2, 3, 4);
+	Fraction A(2, 3, 4);
 	double a = A;
-	cout << a << endl;
-	double b = 2.76;
-	
+	os << a << endl;
+	double b = 2.00003;
 	Fraction B = b;
 	B.print();
 
 #endif // HOME_WORK
-	/*for (size_t i = 0; i < 10000; i++)
-	{
-		cout << fractional_part(1+i/10000.0) << endl;
-	}
-	cout << fractional_part(1.13) << endl;
-	cout << digit_number_part(1.13) << endl;*/
+	
+	Fraction A(2,3,4);
+	cout << A << endl;
 
+	A.print();
+	
 
+	
+	cin >> A;
 
-
+	cout << A << endl;
 
 
 	return 0;
@@ -630,4 +638,45 @@ int fractional_part(double value)//функция перевода дробно�
 	return part;
 }
 
+std::ostream& operator<<(std::ostream& os, const Fraction& obj)
+{
+	/*if (obj.get_integer()) os << obj.get_integer();
+	if (obj.get_numerator())
+	{
+		if (obj.get_integer())os << "(";
+		os << obj.get_numerator() << "/" << obj.get_denomenator();
+		if (obj.get_integer())os << ")";
+	}
+	else if (obj.get_integer() == 0)os << 0;
+	return os;*/
 
+	return obj.print(os);
+}
+
+std::istream& operator>>(std::istream& in, Fraction& obj)
+{
+	/*int a, b, c;
+	in >> a >> b >> c;
+	obj.set_integer(a);
+	obj.set_numerator(b);
+	obj.set_denomenator(c);*/
+	int a=0, b=0, c=0;
+	int z = 1;
+	int f=0;
+	char ch[30];
+	in >> ch;
+	for (size_t i = 0; i < 30 || ch[i]==')'; i++)
+	{
+		if (ch[0] == '-')z = -1;
+		if (ch[i] == '(')f = 1;
+		if (ch[i] == '/')f = 2;
+		if (ch[i] >= '0' && ch[i] <= '9' && f == 0)a = (a * 10 + (ch[i] - '0')) * z;
+		if (ch[i] >= '0' && ch[i] <= '9' && f == 1)b = (b * 10 + (ch[i] - '0'));
+		if (ch[i] >= '0' && ch[i] <= '9' && f == 2)c = (c*10 + (ch[i] - '0'));
+	}
+		obj.set_integer(a);
+		obj.set_numerator(b);
+		obj.set_denomenator(c);
+
+	return in;
+}
