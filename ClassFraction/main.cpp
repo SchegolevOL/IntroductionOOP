@@ -654,7 +654,7 @@ std::istream& operator>>(std::istream& in, Fraction& obj)
 	obj.set_numerator(b);
 	obj.set_denomenator(c);*/
 
-	int integer=0, numerator=0, denomenator=0;
+	/*int integer=0, numerator=0, denomenator=0;
 	int z = 1;
 	int f=0;
 	char ch[30];
@@ -671,7 +671,33 @@ std::istream& operator>>(std::istream& in, Fraction& obj)
 	if (z == -1)integer = integer* (-1);
 	obj.set_integer(integer);
 	obj.set_numerator(numerator);
-	obj.set_denomenator(denomenator);
-
+	obj.set_denomenator(denomenator);*/
+	const int size = 256;
+	char buffer[size] = {};
+	char delimites[] = "() /";
+	in.getline(buffer, size);
+	char* number[3] = {};
+	int n = 0;
+	obj = Fraction();
+	for (char* pch = strtok(buffer, delimites); pch; pch = strtok(NULL, delimites))
+	{
+		number[n++] = pch;
+	}
+	
+	switch (n)
+	{
+		case 1:
+			obj.set_integer(atoi(number[0]));
+			break;
+		case 2:
+			obj.set_numerator(atoi(number[0]));
+			obj.set_denomenator(atoi(number[1]));
+			break;
+		case 3:
+			obj.set_integer(atoi(number[0]));
+			obj.set_numerator(atoi(number[1]));
+			obj.set_denomenator(atoi(number[2]));
+			break;			
+	}
 	return in;
 }
