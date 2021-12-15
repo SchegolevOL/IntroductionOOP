@@ -75,15 +75,12 @@ public:
 	~String()
 	{
 		delete[] this->str;
-		cout << "Destructor:" << this << endl;
+		cout << "Destructor:\t\t" << this << endl;
 	}
 	//----------------Methods:--------------------
 	void print()const
 	{
-		for (size_t i = 0; i < length; i++)
-		{
-			cout<<str[i];
-		}
+		cout << str;
 	}
 
 	//---------------Operators--------------------
@@ -134,18 +131,18 @@ ostream& operator<<(ostream& os, const String& obj)
 String& operator+(const String left, const String right)
 {
 	
-	char* arr = new char[left.get_length() + right.get_length() - 1];
+	char* a = new char[left.get_length() + right.get_length() - 1];
 	
 	for (size_t i = 0; i < left.get_length(); i++)
 	{
-		arr[i] = left.get_str()[i];
+		a[i] = left.get_str()[i];
 	}
 	for (size_t i = 0; i < right.get_length(); i++)
 	{
-		arr[i+ left.get_length()-1] = right.get_str()[i];
+		a[i+ left.get_length()-1] = left.get_str()[i];
 	}
 
-	String tmp(arr);
-	delete[]arr;
+	String tmp(a);
+	delete[]a;
 	return tmp;
 } 
