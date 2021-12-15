@@ -99,7 +99,7 @@ public:
 
 
 };
-String operator+(const String& left, const String& right);
+String& operator+(const String left, const String right);
 ostream& operator<<(ostream& os, const String& obj);
 
 int main()
@@ -131,7 +131,7 @@ ostream& operator<<(ostream& os, const String& obj)
 }
 
 
-String operator+(const String& left, const String& right)
+String& operator+(const String left, const String right)
 {
 	
 	char* arr = new char[left.get_length() + right.get_length() - 1];
