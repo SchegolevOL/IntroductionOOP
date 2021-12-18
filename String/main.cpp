@@ -29,16 +29,7 @@ public:
 		return str;
 	}
 
-	//--Setor-------------------------------------
-
-	int set_length(int length)
-	{
-		this->length = length;
-	}
-	char set_str(char* str)
-	{
-		this->str = str;
-	}
+	
 
 	//-----------Constructors---------------------
 
@@ -58,7 +49,7 @@ public:
 		}
 		cout << "Constructor: " << this << endl;
 	}
-	String (String& other)//---CopyConstructor
+	String (const String& other)//---CopyConstructor
 	{
 		this->length = other.length;
 		this-> str = new char [length] {};
@@ -80,7 +71,8 @@ public:
 	//----------------Methods:--------------------
 	void print()const
 	{
-		cout << str;
+		cout << "Size:\t" << length << endl;
+		cout << "Str:\t" << str << endl;
 	}
 
 	//---------------Operators--------------------
@@ -91,19 +83,19 @@ public:
 		return *this;
 	}
 	
-
-
-
-
 };
-String& operator+(const String left, const String right);
-ostream& operator<<(ostream& os, const String& obj);
 
+String operator+(const String& left, const String& right);
+ostream& operator<<(ostream& os, const String& obj)
+{
+	return os << obj.get_str();
+}
+//#define CONSTRACTOR_CHEK
 int main()
 {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
-
+#ifdef CONSTRACTOR_CHEK
 	String str;
 	String str1 = "Hello";
 	str1.print(); cout << endl;
@@ -112,7 +104,7 @@ int main()
 	String str3 = str2 + str1;
 	str3.print(); cout << endl;
 	cout << str3 << endl;
-
+#endif // CONSTRACTOR_CHEK
 
 
 
@@ -128,9 +120,8 @@ ostream& operator<<(ostream& os, const String& obj)
 }
 
 
-String& operator+(const String left, const String right)
+String operator+(const String& left, const String& right)
 {
-	
 	char* a = new char[left.get_length() + right.get_length() - 1];
 	
 	for (size_t i = 0; i < left.get_length(); i++)
