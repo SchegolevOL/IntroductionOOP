@@ -7,6 +7,10 @@ using std::cout;
 using std::endl;
 
 class String;
+String operator +(const String& left, const String& right);
+std::ostream& operator<<(std::ostream& os, const String& obj);
+std::istream& operator>>(std::istream& in, String& obj);
+
 class String
 {
 	int size;
@@ -82,16 +86,6 @@ public:
 		cout << "CopyAssigment:\t\t" << this << endl;
 		return *this;
 	}
-
-	//----------------Methods:--------------------
-
-	void print()const
-	{
-		cout << "Size:\t" << size << endl;
-		cout << "Str:\t" << str << endl;
-	}
-
-	//-----------Operators:----------------------
 	char& operator[](int i)
 	{
 		return str[i];
@@ -100,38 +94,19 @@ public:
 	{
 		return str[i];
 	}
+	String& operator+=(const String& other)
+	{
+		return *this = *this + other;
+	}
+	//----------------Methods:--------------------
+
+	void print()const
+	{
+		cout << "Size:\t" << size << endl;
+		cout << "Str:\t" << str << endl;
+	}
 };
 
-std::ostream& operator<<(std::ostream& os, const String& obj)
-{
-	return os<<obj.get_str();
-}
-std::istream& operator>>(std::istream& in, String& obj)
-{
-	char tmp[256] = {};
-	in >> tmp;
-	int size = strlen(tmp-1);
-	String Tmp(size);
-	for (size_t i = 0; i < size; i++)Tmp[i] = tmp[i];
-	obj = Tmp;
-	
-
-	return in;
-}
-
-String operator +(const String& left, const String& right)
-{
-	String result(left.get_size() + right.get_size() - 1);
-	for (size_t i = 0; i < left.get_size(); i++)
-	{
-		result[i] = left[i];
-	}
-	for (size_t i = 0; i < right.get_size(); i++)
-	{
-		result[i + left.get_size()-1] = right[i];
-	}
-	return result;
-}
 
 
 
@@ -160,6 +135,39 @@ int main()
 	cout << str3 << endl;
 	cin >> str1;
 	cout << str1 << endl;
-
+	str2 += str1;;
+	cout << str2 << endl;
 	return 0;
+}
+
+
+std::ostream& operator<<(std::ostream& os, const String& obj)
+{
+	return os << obj.get_str();
+}
+std::istream& operator>>(std::istream& in, String& obj)
+{
+	char tmp[256] = {};
+	in >> tmp;
+	int size = strlen(tmp) + 1;
+	String Tmp(size);
+	for (size_t i = 0; i < size; i++)Tmp[i] = tmp[i];
+	obj = Tmp;
+
+
+	return in;
+}
+
+String operator +(const String& left, const String& right)
+{
+	String result(left.get_size() + right.get_size() - 1);
+	for (size_t i = 0; i < left.get_size(); i++)
+	{
+		result[i] = left[i];
+	}
+	for (size_t i = 0; i < right.get_size(); i++)
+	{
+		result[i + left.get_size() - 1] = right[i];
+	}
+	return result;
 }
