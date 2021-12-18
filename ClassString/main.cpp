@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include<Windows.h>
 
 using namespace std;
@@ -37,7 +37,7 @@ public:
 	explicit String(int size = 80)
 	{
 		this->size = size;
-		this->str = new char[size] {};//Память обезательно нужно занулить
+		this->str = new char[size] {};//РџР°РјСЏС‚СЊ РѕР±РµР·Р°С‚РµР»СЊРЅРѕ РЅСѓР¶РЅРѕ Р·Р°РЅСѓР»РёС‚СЊ
 		cout << "SizeConstructor: " << this << endl;
 	}
 	String(const char str[])
