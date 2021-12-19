@@ -10,6 +10,7 @@ class String;
 String operator +(const String& left, const String& right);
 std::ostream& operator<<(std::ostream& os, const String& obj);
 std::istream& operator>>(std::istream& in, String& obj);
+std::istream& getline(std::istream& is, String& obj);
 
 class String
 {
@@ -86,18 +87,22 @@ public:
 		cout << "CopyAssigment:\t\t" << this << endl;
 		return *this;
 	}
+
 	char& operator[](int i)
 	{
 		return str[i];
 	}
+
 	const char& operator[](int i)const
 	{
 		return str[i];
 	}
+
 	String& operator+=(const String& other)
 	{
 		return *this = *this + other;
 	}
+
 	//----------------Methods:--------------------
 
 	void print()const
@@ -111,6 +116,7 @@ public:
 
 
 //#define CONSTRACTOR_CHEK
+//#define OPERATORS_CHEK
 int main()
 {
 	SetConsoleCP(1251);
@@ -128,7 +134,7 @@ int main()
 	str5 = str4;//CopyAssigment
 	cout << str5 << endl;
 #endif // CONSTRACTOR_CHEK
-
+#ifdef OPERATORS_CHEK
 	String str1 = "Heloo";
 	String str2 = "World";
 	String str3 = str1 + str2;
@@ -137,6 +143,18 @@ int main()
 	cout << str1 << endl;
 	str2 += str1;;
 	cout << str2 << endl;
+#endif // OPERATORS_CHEK
+
+	String str;
+	cout << "Введите строку : ";
+	//cin >> str;
+	str.print();
+	getline(cin, str);
+	cout << str << endl;
+
+
+
+
 	return 0;
 }
 
@@ -145,17 +163,24 @@ std::ostream& operator<<(std::ostream& os, const String& obj)
 {
 	return os << obj.get_str();
 }
-std::istream& operator>>(std::istream& in, String& obj)
+
+
+std::istream& operator>>(std::istream& is, String& obj)
 {
-	char tmp[256] = {};
-	in >> tmp;
-	int size = strlen(tmp) + 1;
-	String Tmp(size);
-	for (size_t i = 0; i < size; i++)Tmp[i] = tmp[i];
-	obj = Tmp;
+	const int SIZE = 1024;
+	char buffer[SIZE] = {};
+	is >> buffer;
+	obj = buffer;
+	return is;
+}
 
-
-	return in;
+std::istream& getline(std::istream& is, String& obj)
+{
+	const int SIZE = 1024;
+	char buffer[SIZE] = {};
+	is.getline(buffer,SIZE);
+	obj = buffer;
+	return is;
 }
 
 String operator +(const String& left, const String& right)
