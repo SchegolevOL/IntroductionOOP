@@ -98,7 +98,7 @@ public:
 	{
 		for (size_t i = 0; i < row; i++)
 		{
-			for (size_t j = 0; j < row; j++)
+			for (size_t j = 0; j < colum; j++)
 			{
 				cout << matrix[i][j] << "\t";
 			}
@@ -120,7 +120,7 @@ public:
 		return matrix[i];
 	}
 
-	int* operator[](int i)const
+	const int* operator[](int i)const
 	{
 		return matrix[i];
 	}
@@ -137,14 +137,17 @@ int main()
 	SetConsoleOutputCP(1251);
 	srand(time(NULL));
 
-	Matrix matrix1(5,5);
-	matrix1.rnd(1, 10);
+	Matrix matrix1(3,3);
+	matrix1.rnd(1, 5);
 	matrix1.print();
-	Matrix matrix2(matrix1);
+	Matrix matrix2(3,2);
+	matrix2.rnd(1, 5);
 	matrix2.print();
-	Matrix matrix3 = matrix1 + matrix2;
+	/*Matrix matrix4 = matrix1 + matrix2;*/
+	/*matrix4.print();*/
+	Matrix matrix3 = matrix1 * matrix2;
 	matrix3.print();
-
+	
 
 
 	return 0;
@@ -152,7 +155,7 @@ int main()
 
 Matrix operator+(const Matrix(left), const Matrix(right))
 {
-	if (left.get_row() != right.get_row() || left.get_colum() != right.get_colum())return -1;
+	if (left.get_row() != right.get_row() || left.get_colum() != right.get_colum())return -1;//??????????????
 	Matrix result(left.get_row(), right.get_row());
 
 	for (size_t i = 0; i < result.get_row(); i++)
@@ -166,7 +169,7 @@ Matrix operator+(const Matrix(left), const Matrix(right))
 }
 Matrix operator-(const Matrix(left), const Matrix(right))
 {
-	if (left.get_row() != right.get_row() || left.get_colum() != right.get_colum())return -1;
+	if (left.get_row() != right.get_row() || left.get_colum() != right.get_colum())return -1;//??????????????
 	Matrix result(left.get_row(), right.get_row());
 
 	for (size_t i = 0; i < result.get_row(); i++)
@@ -180,7 +183,7 @@ Matrix operator-(const Matrix(left), const Matrix(right))
 }
 Matrix operator*(const Matrix(left), const Matrix(right))
 {
-	if (left.get_colum() !=  right.get_row())return -1;
+	if (left.get_colum() !=  right.get_row())return -1;//??????????????
 	Matrix result(left.get_row(), right.get_colum());
 
 	for (size_t i = 0; i < result.get_row(); i++)
@@ -199,7 +202,7 @@ Matrix operator*(const Matrix(left), const Matrix(right))
 Matrix operator/(const Matrix(left), const Matrix(right))
 {
 	
-	return ;
+	return 0;
 }
 
 
