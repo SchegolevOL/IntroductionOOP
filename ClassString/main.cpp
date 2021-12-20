@@ -14,6 +14,7 @@ std::istream& getline(std::istream& is, String& obj);
 
 class String
 {
+
 	int size;
 	char* str;
 public:
