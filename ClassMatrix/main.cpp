@@ -36,12 +36,12 @@ public:
 	{
 		return colum;
 	}
-	
+
 	//---set---------------------
-	
+
 
 	//-------Constructors--------
-	 Matrix(size_t row = 3, size_t colum=3)
+	Matrix(size_t row = 3, size_t colum = 3)
 	{
 		this->row = row;
 		this->colum = colum;
@@ -52,7 +52,7 @@ public:
 		}
 		cout << "Constructor_2Arg: \t" << this << endl;
 	}
-	/*Matrix(size_t size) 
+	/*Matrix(size_t size)
 	 {
 		this->row = size;
 		this->colum = size;
@@ -65,18 +65,18 @@ public:
 	 }*/
 
 
-	 Matrix(const Matrix& (other)) : Matrix(other.row,other.colum)
-	 {
-		 for (size_t i = 0; i < row; i++)
-		 {
-			 for (size_t j = 0; j < colum; j++)
-			 {
-				 this->matrix[i][j] = other.matrix[i][j];
-			 }
-		 }
-		 cout << "CopyConstructor:\t" << this << endl;
-	 }
-	 
+	Matrix(const Matrix& (other)) : Matrix(other.row, other.colum)
+	{
+		for (size_t i = 0; i < row; i++)
+		{
+			for (size_t j = 0; j < colum; j++)
+			{
+				this->matrix[i][j] = other.matrix[i][j];
+			}
+		}
+		cout << "CopyConstructor:\t" << this << endl;
+	}
+
 
 
 	//-------Destructor----------
@@ -124,7 +124,7 @@ public:
 	{
 		return matrix[i];
 	}
-	
+
 
 };
 
@@ -137,17 +137,25 @@ int main()
 	SetConsoleOutputCP(1251);
 	srand(time(NULL));
 
-	Matrix matrix1(3,3);
+	Matrix matrix1(3, 3);
 	matrix1.rnd(1, 5);
 	matrix1.print();
-	Matrix matrix2(3,2);
+	Matrix matrix2(3, 2);
 	matrix2.rnd(1, 5);
 	matrix2.print();
-	/*Matrix matrix4 = matrix1 + matrix2;*/
+	Matrix matrix4;
+	try
+	{
+		matrix4 = matrix1 + matrix2;
+	}
+	catch (const std::exception& e)
+	{
+		cerr << e.what() << endl;
+	}
 	/*matrix4.print();*/
 	Matrix matrix3 = matrix1 * matrix2;
 	matrix3.print();
-	
+
 
 
 	return 0;
@@ -155,7 +163,7 @@ int main()
 
 Matrix operator+(const Matrix(left), const Matrix(right))
 {
-	if (left.get_row() != right.get_row() || left.get_colum() != right.get_colum())return -1;//??????????????
+	if (left.get_row() != right.get_row() || left.get_colum() != right.get_colum())throw std::exception("Error: Размеры матриц не совпадают");//return -1;//??????????????
 	Matrix result(left.get_row(), right.get_row());
 
 	for (size_t i = 0; i < result.get_row(); i++)
@@ -183,7 +191,7 @@ Matrix operator-(const Matrix(left), const Matrix(right))
 }
 Matrix operator*(const Matrix(left), const Matrix(right))
 {
-	if (left.get_colum() !=  right.get_row())return -1;//??????????????
+	if (left.get_colum() != right.get_row())return -1;//??????????????
 	Matrix result(left.get_row(), right.get_colum());
 
 	for (size_t i = 0; i < result.get_row(); i++)
@@ -193,15 +201,15 @@ Matrix operator*(const Matrix(left), const Matrix(right))
 			result[i][j] = 0;
 			for (size_t k = 0; k < left.get_colum(); k++)
 			{
-				result[i][j] = result[i][j] + left[i][k] * right[k][j];
-			}			
+				result[i][j] += left[i][k] * right[k][j];
+			}
 		}
 	}
 	return result;
 }
 Matrix operator/(const Matrix(left), const Matrix(right))
 {
-	
+
 	return 0;
 }
 
