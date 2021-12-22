@@ -16,7 +16,7 @@ Matrix operator+(const Matrix(left), const Matrix(right));
 Matrix operator-(const Matrix(left), const Matrix(right));
 Matrix operator*(const Matrix(left), const Matrix(right));
 Matrix operator/(const Matrix(left), const Matrix(right));
-int Determinant(Matrix matrix);
+int determinant(Matrix matrix);
 Matrix Inverse(Matrix matrix);
 
 

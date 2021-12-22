@@ -53,7 +53,7 @@ Matrix operator/(const Matrix(left), const Matrix(right))
 	if (left.get_row() != right.get_row() || left.get_colum() != right.get_colum())throw std::exception("Error: The sizes of the matrices do not match");
 	return left* Inverse(right);
 }
-int Determinant(Matrix matrix)
+int determinant(Matrix matrix)
 {
 	if (matrix.get_row() != matrix.get_colum())throw std::exception("Error:  Are not the same the number of rows and columns the matrix.");
 	if (matrix.get_row() == 1)return matrix[0][0];
@@ -79,7 +79,7 @@ int Determinant(Matrix matrix)
 				}
 				a++;
 			}
-			det += pow(-1, (double)i + 1 + 1) * matrix[0][i] * Determinant(tmp);
+			det += pow(-1, (double)i + 1 + 1) * matrix[0][i] * determinant(tmp);
 		}
 		return det;
 	}
@@ -87,12 +87,12 @@ int Determinant(Matrix matrix)
 Matrix Inverse(const Matrix matrix)
 {
 	Matrix InvMatrix(matrix);
-	double det = Determinant(matrix);
+	double det = determinant(matrix);
 	for (size_t i = 0; i < matrix.get_row(); i++)
 	{
 		for (size_t j = 0; j < matrix.get_colum(); j++)
 		{			
-			InvMatrix[i][j] = pow(-1, i + j) * Determinant(Matrix(matrix, j, i)) / det;
+			InvMatrix[i][j] = pow(-1, i + j) * determinant(Matrix(matrix, j, i)) / det;
 		}
 	}
 	return InvMatrix;
@@ -180,7 +180,7 @@ void Matrix::rnd(int begin, int end)
 	{
 		for (size_t j = 0; j < colum; j++)
 		{
-			matrix[i][j] = rand() % (end - begin + 1) + begin;
+			matrix[i][j] = rand() % (end - begin + 1)*1.0 + begin;
 		}
 	}
 }
@@ -197,6 +197,11 @@ Matrix& Matrix::operator=(const Matrix(other))
 {
 	this->row = other.row;
 	this->colum = other.colum;
+	this->matrix = new double* [row];
+	for (size_t i = 0; i < row; i++)
+	{
+		this->matrix[i] = new double[colum] {};
+	}
 	for (size_t i = 0; i < row; i++)
 	{
 		for (size_t j = 0; j < colum; j++)

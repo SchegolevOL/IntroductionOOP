@@ -22,13 +22,13 @@ int main()
 	matrix1.rnd(a, b);
 	cout << "Матрица №1"<<endl;
 	matrix1.print();
-	cout << "Определитель матрицы №1 = " << Determinant(matrix1) << endl;
+	cout << "Определитель матрицы №1 = " << determinant(matrix1) << endl;
 	cout << "\n\n";
 	Matrix matrix2(row, colum);
 	matrix2.rnd(a, b);
 	cout << "Матрица №2" << endl;
 	matrix2.print();
-	cout << "Определитель матрицы №2 = " << Determinant(matrix2) << endl;
+	cout << "Определитель матрицы №2 = " << determinant(matrix2) << endl;
 
 	cout << "\n\n";
 	Matrix matrix3;
