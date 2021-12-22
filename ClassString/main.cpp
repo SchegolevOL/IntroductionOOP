@@ -63,6 +63,17 @@ public:
 		}
 		cout << "CopyConstructor: " << this << endl;
 	}
+	//------------MoveConstructor--------------
+
+	String(String&& other)noexcept//никогда не бросает исключения
+	{
+		this->size = other.size;
+		this->str = other.str;//копируем адресс памяти пренадлежащей другому обекту
+		//Зануляем другой объект
+		other.size = 0;
+		other.str = nullptr;
+		cout << "MoveConstructor" << this << endl;
+	}
 
 	//-----------Destructor---------------------
 	~String()
@@ -87,6 +98,22 @@ public:
 		}
 
 		cout << "CopyAssigment:\t\t" << this << endl;
+		return *this;
+	}
+	String& operator = (String&& other)noexcept
+	{
+		if (this == &other)
+		{
+			return *this;
+		}
+		delete this->str;
+		this->size = other.size;
+		this->str = other.str;
+		other.size = 0;
+		other.str = nullptr;
+		/*this->str = nullptr;
+		*this = std::move(other);
+		cout << "MoveAssigment:\t\t" << this << endl;*/
 		return *this;
 	}
 
@@ -118,7 +145,7 @@ public:
 
 
 //#define CONSTRACTOR_CHEK
-//#define OPERATORS_CHEK
+#define OPERATORS_CHEK
 //#define INPUT_CHEK
 int main()
 {
@@ -140,12 +167,13 @@ int main()
 #ifdef OPERATORS_CHEK
 	String str1 = "Heloo";
 	String str2 = "World";
-	String str3 = str1 + str2;
+	String str3;
+	str3 = str1 + str2;
 	cout << str3 << endl;
-	cin >> str1;
+	/*cin >> str1;
 	cout << str1 << endl;
 	str2 += str1;;
-	cout << str2 << endl;
+	cout << str2 << endl;*/
 #endif // OPERATORS_CHEK
 #ifdef INPUT_CHEK
 	String str;
@@ -155,15 +183,15 @@ int main()
 	getline(cin, str);
 	cout << str << endl;
 #endif // INPUT_CHEK
-	String str1;//конструктор по умолчанию
-	str1.print();
-	String str4(); /*невызывается ни какой конструктор поскольку не создается 
-					обект, ф объявляется фукция которая ничего не принимает, 
-					а возвращает значение типа String*/
-	String str5{};//конструктор по умолчанию
-	str5.print();
-	String str6("World");//конструктор с одним параметром
-	String str7{ "Planet" };//конструктор с одним параметром
+	//String str1;//конструктор по умолчанию
+	//str1.print();
+	//String str4(); /*невызывается ни какой конструктор поскольку не создается 
+	//				обект, ф объявляется фукция которая ничего не принимает, 
+	//				а возвращает значение типа String*/
+	//String str5{};//конструктор по умолчанию
+	//str5.print();
+	//String str6("World");//конструктор с одним параметром
+	//String str7{ "Planet" };//конструктор с одним параметром
 	
 
 
