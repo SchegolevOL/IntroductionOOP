@@ -171,7 +171,7 @@ void Matrix::print()const
 	{
 		for (size_t j = 0; j < colum; j++)
 		{
-			cout << matrix[i][j] << "\t";
+			cout << matrix[i][j] << "\t\t";
 		}
 		cout << endl;
 	}
