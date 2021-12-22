@@ -49,8 +49,10 @@ Matrix operator*(const Matrix(left), const Matrix(right))
 }
 Matrix operator/(const Matrix(left), const Matrix(right))
 {
+	
 	if (left.get_row() != left.get_colum() && right.get_row() != right.get_colum())throw std::exception("Error: The matrix is not square");
 	if (left.get_row() != right.get_row() || left.get_colum() != right.get_colum())throw std::exception("Error: The sizes of the matrices do not match");
+	if (determinant(right)==0)throw std::exception("Error: The determinant of the matrix is 0, the matrix is degenerate");
 	return left* Inverse(right);
 }
 int determinant(Matrix matrix)
