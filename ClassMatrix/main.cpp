@@ -1,132 +1,4 @@
-#include<iostream>
-#include<Windows.h>
-#include<time.h>
-#include <stdlib.h>
-
-
-
-using namespace std;
-using std::cin;
-using std::cout;
-using std::endl;
-
-class Matrix;
-Matrix operator+(const Matrix(left), const Matrix(right));
-Matrix operator-(const Matrix(left), const Matrix(right));
-Matrix operator*(const Matrix(left), const Matrix(right));
-Matrix operator/(const Matrix(left), const Matrix(right));
-
-
-
-
-class Matrix
-{
-	//---------Parameters--------
-	size_t row;
-	size_t colum;
-	int** matrix;
-public:
-	//---------Metods------------
-	//---get---------------------
-	const size_t get_row()const
-	{
-		return row;
-	}
-	const size_t get_colum()const
-	{
-		return colum;
-	}
-
-	//---set---------------------
-
-
-	//-------Constructors--------
-	Matrix(size_t row = 3, size_t colum = 3)
-	{
-		this->row = row;
-		this->colum = colum;
-		this->matrix = new int* [row];
-		for (size_t i = 0; i < row; i++)
-		{
-			this->matrix[i] = new int[colum] {};
-		}
-		cout << "Constructor_2Arg: \t" << this << endl;
-	}
-	/*Matrix(size_t size)
-	 {
-		this->row = size;
-		this->colum = size;
-		this->matrix = new int* [row];
-		for (size_t i = 0; i < row; i++)
-		{
-			this->matrix[i] = new int[colum] {};
-		}
-		 cout << "Constructor_1Arg: \t" << this << endl;
-	 }*/
-
-
-	Matrix(const Matrix& (other)) : Matrix(other.row, other.colum)
-	{
-		for (size_t i = 0; i < row; i++)
-		{
-			for (size_t j = 0; j < colum; j++)
-			{
-				this->matrix[i][j] = other.matrix[i][j];
-			}
-		}
-		cout << "CopyConstructor:\t" << this << endl;
-	}
-
-
-
-	//-------Destructor----------
-	~Matrix()
-	{
-		for (size_t i = 0; i < row; i++)
-		{
-			delete[]matrix[i];
-		}
-		delete[]matrix;
-		cout << "Destructor: \t\t" << this << endl;
-	}
-
-	//--------Methods------------
-
-
-	//------Operators------------
-	void print()const
-	{
-		for (size_t i = 0; i < row; i++)
-		{
-			for (size_t j = 0; j < colum; j++)
-			{
-				cout << matrix[i][j] << "\t";
-			}
-			cout << endl;
-		}
-	}
-	void rnd(int begin, int end)
-	{
-		for (size_t i = 0; i < row; i++)
-		{
-			for (size_t j = 0; j < colum; j++)
-			{
-				matrix[i][j] = rand() % (end - begin + 1) + begin;
-			}
-		}
-	}
-	int* operator[](int i)
-	{
-		return matrix[i];
-	}
-
-	const int* operator[](int i)const
-	{
-		return matrix[i];
-	}
-
-
-};
+#include"Matrix.h"
 
 
 
@@ -137,78 +9,90 @@ int main()
 	SetConsoleOutputCP(1251);
 	srand(time(NULL));
 
-	Matrix matrix1(3, 3);
-	matrix1.rnd(1, 5);
+	
+	size_t row, colum;
+	int a, b;
+	cout << "Введите размер матриц : ";
+	cin >> row;
+	cin >> colum;
+	Matrix matrix1(row, colum);
+	cout << "Введите интервал чисел, для заполнения матрицы : ";
+	cin >> a;
+	cin >> b;
+	matrix1.rnd(a, b);
+	cout << "Матрица №1"<<endl;
 	matrix1.print();
-	Matrix matrix2(3, 2);
-	matrix2.rnd(1, 5);
+	cout << "Определитель матрицы №1 = " << Determinant(matrix1) << endl;
+	cout << "\n\n";
+	Matrix matrix2(row, colum);
+	matrix2.rnd(a, b);
+	cout << "Матрица №2" << endl;
 	matrix2.print();
-	Matrix matrix4;
+	cout << "Определитель матрицы №2 = " << Determinant(matrix2) << endl;
+
+	cout << "\n\n";
+	Matrix matrix3;
+	cout << "Матрица №3 = Матрица №1 + Матрица №2" << endl;
 	try
 	{
-		matrix4 = matrix1 + matrix2;
+		matrix3 = matrix1 + matrix2;
 	}
 	catch (const std::exception& e)
 	{
 		cerr << e.what() << endl;
 	}
-	/*matrix4.print();*/
-	Matrix matrix3 = matrix1 * matrix2;
 	matrix3.print();
 
-
-
-	return 0;
-}
-
-Matrix operator+(const Matrix(left), const Matrix(right))
-{
-	if (left.get_row() != right.get_row() || left.get_colum() != right.get_colum())throw std::exception("Error: Размеры матриц не совпадают");//return -1;//??????????????
-	Matrix result(left.get_row(), right.get_row());
-
-	for (size_t i = 0; i < result.get_row(); i++)
+	cout << "Матрица №3 = Матрица №1 - Матрица №2" << endl;
+	try
 	{
-		for (size_t j = 0; j < result.get_colum(); j++)
-		{
-			result[i][j] = left[i][j] + right[i][j];
-		}
+		matrix3 = matrix1 - matrix2;
 	}
-	return result;
-}
-Matrix operator-(const Matrix(left), const Matrix(right))
-{
-	if (left.get_row() != right.get_row() || left.get_colum() != right.get_colum())return -1;//??????????????
-	Matrix result(left.get_row(), right.get_row());
-
-	for (size_t i = 0; i < result.get_row(); i++)
+	catch (const std::exception& e)
 	{
-		for (size_t j = 0; j < result.get_colum(); j++)
-		{
-			result[i][j] = left[i][j] - right[i][j];
-		}
+		cerr << e.what() << endl;
 	}
-	return result;
-}
-Matrix operator*(const Matrix(left), const Matrix(right))
-{
-	if (left.get_colum() != right.get_row())return -1;//??????????????
-	Matrix result(left.get_row(), right.get_colum());
+	matrix3.print();
 
-	for (size_t i = 0; i < result.get_row(); i++)
+	cout << "Матрица №3 = Матрица №1 - Матрица №2" << endl;
+	try
 	{
-		for (size_t j = 0; j < result.get_colum(); j++)
-		{
-			result[i][j] = 0;
-			for (size_t k = 0; k < left.get_colum(); k++)
-			{
-				result[i][j] += left[i][k] * right[k][j];
-			}
-		}
+		matrix3 = matrix1 - matrix2;
 	}
-	return result;
-}
-Matrix operator/(const Matrix(left), const Matrix(right))
-{
+	catch (const std::exception& e)
+	{
+		cerr << e.what() << endl;
+	}
+	matrix3.print();
+
+	cout << "Матрица №3 = Матрица №1 * Матрица №2" << endl;
+	try
+	{
+		matrix3 = matrix1 * matrix2;
+	}
+	catch (const std::exception& e)
+	{
+		cerr << e.what() << endl;
+	}
+	matrix3.print();
+
+	cout << "Матрица №3 = Матрица №1 / Матрица №2" << endl;
+	try
+	{
+		matrix3 = matrix1 / matrix2;
+	}
+	catch (const std::exception& e)
+	{
+		cerr << e.what() << endl;
+	}
+	matrix3.print();
+
+	cout << "Обратная матрица Матрицы №1 = " << endl;
+	matrix3 = Inverse(matrix1);
+	matrix3.print();
+	cout << "Проверка обратной матрицы" << endl;
+	matrix2 = matrix1 * matrix3;
+	matrix2.print();
 
 	return 0;
 }
