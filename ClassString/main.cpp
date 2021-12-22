@@ -14,7 +14,6 @@ std::istream& getline(std::istream& is, String& obj);
 
 class String
 {
-
 	int size;
 	char* str;
 public:
@@ -36,26 +35,28 @@ public:
 	}
 
 	//-----------Constructors---------------------
-	explicit String(int size = 80)
+	explicit String(int size = 80) :size(size), str(new char[size] {})
 	{
-		this->size = size;
-		this->str = new char[size] {};//Память обезательно нужно занулить
+		/*this->size = size;
+		this->str = new char[size] {};*/ //Память обезательно нужно занулить
 		cout << "SizeConstructor: " << this << endl;
 	}
-	String(const char str[])
+	String(const char str[]):
+		size(strlen(str) + 1),
+		str(new char[size]{})
 	{
-		this->size = strlen(str) + 1;
-		this->str = new char[size] {};
+		/*this->size = strlen(str) + 1;
+		this->str = new char[size] {};*/
 		for (size_t i = 0; i < size; i++)
 		{
 			this->str[i] = str[i];
 		}
 		cout << "Constructor: " << this << endl;
 	}
-	String(const String& other)
+	String(const String& other): size(other.size), str(new char[size] {})
 	{
-		this->size = other.size;
-		this->str = new char[size];
+		/*this->size = other.size;
+		this->str = new char[size];*/
 		for (size_t i = 0; i < size; i++)
 		{
 			this->str[i] = other.str[i];
@@ -118,6 +119,7 @@ public:
 
 //#define CONSTRACTOR_CHEK
 //#define OPERATORS_CHEK
+//#define INPUT_CHEK
 int main()
 {
 	SetConsoleCP(1251);
@@ -145,13 +147,27 @@ int main()
 	str2 += str1;;
 	cout << str2 << endl;
 #endif // OPERATORS_CHEK
-
+#ifdef INPUT_CHEK
 	String str;
 	cout << "Введите строку : ";
 	//cin >> str;
 	str.print();
 	getline(cin, str);
 	cout << str << endl;
+#endif // INPUT_CHEK
+	String str1;//конструктор по умолчанию
+	str1.print();
+	String str4(); /*невызывается ни какой конструктор поскольку не создается 
+					обект, ф объявляется фукция которая ничего не принимает, 
+					а возвращает значение типа String*/
+	String str5{};//конструктор по умолчанию
+	str5.print();
+	String str6("World");//конструктор с одним параметром
+	String str7{ "Planet" };//конструктор с одним параметром
+	
+
+
+
 
 
 
