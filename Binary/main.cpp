@@ -12,6 +12,8 @@ Binary operator/(Binary left, Binary right);
 Binary operator||(Binary left, Binary right);
 Binary operator&&(Binary left, Binary right);
 Binary operator ^ (Binary left, Binary right);
+std::istream& operator>>(std::istream& is, Binary& obj);
+
 class Binary
 {
 	size_t size;
@@ -43,6 +45,7 @@ public:
 		{
 			bin[i] = str[i] == '0' ? 0 : 1;
 		}
+
 		cout << "Constructor: " << this << endl;
 	}
 	Binary(const Binary& other)
@@ -209,6 +212,8 @@ int main()
 	cout << d << endl;
 	cout << d << endl;
 	cout << !d << endl;
+	cin >> a;
+	cout << a << endl;
 
 	//Binary g(11);
 	//cout << g << endl;
@@ -301,4 +306,12 @@ int bin_to_dec(Binary& bin_value)
 std::ostream& operator<<(std::ostream& os, const Binary& value)
 {
 	return value.print(os);
+}
+std::istream& operator>>(std::istream& is, Binary& obj)
+{
+	const int SIZE = 1024;
+	char buffer[SIZE] = {};
+	is >> buffer;
+	obj = buffer;
+	return is;
 }
