@@ -9,8 +9,8 @@ std::ostream& operator<<(std::ostream& os, const Binary& value);
 Binary operator-(Binary left, Binary right);
 Binary operator*(Binary left, Binary right);
 Binary operator/(Binary left, Binary right);
-Binary operator||(Binary left, Binary right);
-Binary operator&&(Binary left, Binary right);
+Binary operator|(Binary left, Binary right);
+Binary operator&(Binary left, Binary right);
 Binary operator ^ (Binary left, Binary right);
 std::istream& operator>>(std::istream& is, Binary& obj);
 
@@ -198,11 +198,11 @@ int main()
 	a.max_bin(b);
 	cout << a << endl;
 	Binary d;
-	d = a || b;
+	d = a | b;
 	cout << a << endl;
 	cout << b << endl;
 	cout << d << endl<<endl;
-	d = a && b;
+	d = a & b;
 	cout << a << endl;
 	cout << b << endl;
 	cout << d << endl;
@@ -253,7 +253,7 @@ Binary operator/(Binary left, Binary right)
 	Binary result(tmp);
 	return result;
 }
-Binary operator||(Binary left, Binary right)
+Binary operator|(Binary left, Binary right)
 {
 	left = left.max_bin(right);
 	right = right.max_bin(left);
@@ -265,7 +265,7 @@ Binary operator||(Binary left, Binary right)
 	Binary result(bin_to_dec(tmp));
 	return tmp;
 }
-Binary operator&&(Binary left, Binary right)
+Binary operator&(Binary left, Binary right)
 {
 	left = left.max_bin(right);
 	right = right.max_bin(left);
